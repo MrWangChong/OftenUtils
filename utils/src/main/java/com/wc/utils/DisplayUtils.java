@@ -8,14 +8,21 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.ContentObserver;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Handler;
+import android.os.Looper;
 import android.provider.Settings;
 import android.util.DisplayMetrics;
 import android.view.Display;
+import android.view.KeyCharacterMap;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -24,7 +31,7 @@ import java.util.List;
  * 屏幕信息工具类
  * Created by RushKing on 2018/7/16.
  */
-public class DisplayUtil {
+public class DisplayUtils {
     private static boolean mHasInit = false;
     private static int sScreenHeight;
     private static int sScreenWidth;
@@ -34,7 +41,7 @@ public class DisplayUtil {
     private static float sDensity;
     private static float sScaledDensity;
 
-    private DisplayUtil() {
+    private DisplayUtils() {
     }
 
     /**
@@ -52,6 +59,16 @@ public class DisplayUtil {
         sScaledDensity = context.getResources().getDisplayMetrics().scaledDensity;
         initStatusHeight(context);
         initNavigationBarHeight(context);
+    }
+
+    public static void setStatusBarTextColor(Activity activity, boolean isBlack) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+            if (isBlack) {
+                activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//设置状态栏黑色字体
+            } else {
+                activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);//恢复状态栏白色字体
+            }
+        }
     }
 
     /**
@@ -203,6 +220,8 @@ public class DisplayUtil {
             int id = context.getResources().getIdentifier("config_showNavigationBar", "bool", "android");
             if (id > 0) {
                 hasNavigationBar = rs.getBoolean(id);
+            } else {
+                return !ViewConfiguration.get(context).hasPermanentMenuKey() && KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_BACK);
             }
             @SuppressLint("PrivateApi")
             Class systemPropertiesClass = Class.forName("android.os.SystemProperties");
@@ -217,6 +236,25 @@ public class DisplayUtil {
             e.printStackTrace();
         }
         return hasNavigationBar;
+    }
+
+    public static boolean isNavigationBarShowing(Activity context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            Display display = context.getWindowManager().getDefaultDisplay();
+            Point size = new Point();
+            Point realSize = new Point();
+            display.getSize(size);
+            display.getRealSize(realSize);
+            //boolean result = realSize.y != size.y;
+            int navigationBarIsMin = Settings.Global.getInt(context.getContentResolver(),
+                    "navigationbar_is_min", 0);
+            int miuiIsMin = Settings.Global.getInt(context.getContentResolver(), "force_fsg_nav_bar", 0);
+            return realSize.y != size.y && navigationBarIsMin != 1 && miuiIsMin != 1;
+        } else {
+            boolean menu = ViewConfiguration.get(context).hasPermanentMenuKey();
+            boolean back = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_BACK);
+            return !menu && !back;
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)

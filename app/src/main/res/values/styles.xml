@@ -8,4 +8,12 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="ActivityTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
+        <item name="android:fitsSystemWindows">false</item>
+        <!--<item name="android:textColorPrimary">@android:color/black</item>-->
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
 </resources>

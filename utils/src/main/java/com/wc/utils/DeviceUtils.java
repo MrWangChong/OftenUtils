@@ -14,6 +14,7 @@ import java.security.NoSuchAlgorithmException;
  * 由于IMEI部分手机获取不到，没插手机卡或平板也获取不到
  * 所以采用ANDROID_ID+SERIAL并MD5加密的方式做唯一标示
  * 这个标示用户如果刷机之后会改变，但是相比IMEI做唯一标示更加安全可靠
+ * Build.SERIAL在api25已经获取不到了，可以使用getSerial来获取，但是需要READ_PHONE_STATE权限
  * <p>
  * Created by RushKing on 2017/6/8.
  */

@@ -1,16 +1,23 @@
 package com.wc.oftenutils;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 
-import com.wc.utils.DisplayUtil;
+import com.wc.utils.ToastUtils;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        DisplayUtil.init(this);
-        setContentView(R.layout.activity_main);
+    protected void initView() {
+
+    }
+
+    @Override
+    protected void initData() {
+        setStateBarColor();
+        ToastUtils.showToast(this, "页面启动成功");
+    }
+
+    @Override
+    protected int getLayoutResID() {
+        return R.layout.activity_main;
     }
 }

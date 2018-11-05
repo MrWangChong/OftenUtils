@@ -1,7 +1,9 @@
 package com.wc.utils;
 
 import android.annotation.SuppressLint;
+import android.app.Application;
 import android.content.Context;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 /**
@@ -22,11 +24,15 @@ public class ToastUtils {
      */
     @SuppressLint("ShowToast")
     public static void showToast(Context context, CharSequence text) {
-        if (context == null) {
+        if (context == null || TextUtils.isEmpty(text)) {
             return;
         }
         if (sToast == null) {
-            sToast = Toast.makeText(context, text, Toast.LENGTH_SHORT);
+            if (context instanceof Application) {
+                sToast = Toast.makeText(context, text, Toast.LENGTH_SHORT);
+            } else {
+                sToast = Toast.makeText(context.getApplicationContext(), text, Toast.LENGTH_SHORT);
+            }
         } else {
             sToast.setText(text);
             sToast.setDuration(Toast.LENGTH_SHORT);
@@ -34,6 +40,7 @@ public class ToastUtils {
         sToast.show();
         startReleaseThread();
     }
+
 
     /**
      * 显示Toast
@@ -47,7 +54,11 @@ public class ToastUtils {
             return;
         }
         if (sToast == null) {
-            sToast = Toast.makeText(context, resId, Toast.LENGTH_SHORT);
+            if (context instanceof Application) {
+                sToast = Toast.makeText(context, resId, Toast.LENGTH_SHORT);
+            } else {
+                sToast = Toast.makeText(context.getApplicationContext(), resId, Toast.LENGTH_SHORT);
+            }
         } else {
             sToast.setText(resId);
             sToast.setDuration(Toast.LENGTH_SHORT);

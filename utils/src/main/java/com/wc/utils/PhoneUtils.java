@@ -21,7 +21,6 @@ import java.util.regex.Pattern;
  * 电话号码工具类
  * Created by RushKing on 2017/11/2.
  */
-
 public class PhoneUtils {
     /**
      * 判断手机格式是否正确，并且是移动号码
@@ -35,7 +34,7 @@ public class PhoneUtils {
         if (TextUtils.isEmpty(number)) {
             return false;
         }
-        String telRegex = "[1]([3][456789]|(47)|[5][012789]|(78)|[8][23478])\\d{8}";
+        String telRegex = "[1]([3][456789]|(47)|[5][012789]|(78)|[8][23478]|[9][0123456789])\\d{8}";
         return number.matches(telRegex);
     }
 
@@ -48,7 +47,7 @@ public class PhoneUtils {
         if (TextUtils.isEmpty(phone)) {
             return false;
         }
-        Pattern p = Pattern.compile("^[1][3,4,5,7,8][0-9]{9}$"); // 验证手机号
+        Pattern p = Pattern.compile("^[1][3,4,5,7,8,9][0-9]{9}$"); // 验证手机号
         Matcher m = p.matcher(phone);
         return m.matches();
     }
