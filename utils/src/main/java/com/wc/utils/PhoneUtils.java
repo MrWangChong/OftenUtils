@@ -47,7 +47,7 @@ public class PhoneUtils {
         if (TextUtils.isEmpty(phone)) {
             return false;
         }
-        Pattern p = Pattern.compile("^[1][3,4,5,7,8,9][0-9]{9}$"); // 验证手机号
+        Pattern p = Pattern.compile("^[1][2,3,4,5,6,7,8,9][0-9]{9}$"); // 验证手机号
         Matcher m = p.matcher(phone);
         return m.matches();
     }

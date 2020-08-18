@@ -12,7 +12,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        setStateBarColor();
         ToastUtils.showToast(this, "页面启动成功");
     }
 

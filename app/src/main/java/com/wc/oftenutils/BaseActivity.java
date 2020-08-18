@@ -18,7 +18,7 @@ import com.wc.oftenutils.widget.MainLayout;
  * 使用etLayoutResID和getContentView返回界面布局
  * 并且需要使用相应的style，比如这里的ActivityTheme
  * 如果是白色界面或者浅色界面
- * 可以使用setStateBarColor来适配不能修改状态栏字体的手机，比如layout.activity_main中的status_view
+ * 可以使用isBlackStateTextColor来适配不能修改状态栏字体的手机，比如layout.activity_main中的status_view
  * <p>
  * Created by RushKing on 2018/11/5.
  */
